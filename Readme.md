@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Юлия Потапова](https://up.htmlacademy.ru/javascript-individual/2/user/2260967).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Васильев](https://https://htmlacademy.ru/profile/id1353249).
 
 ---
 
