@@ -1,13 +1,11 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Юлия Потапова](https://up.htmlacademy.ru/javascript-individual/2/user/2260967).
-* Наставник: `Неизвестно`.
-
+* Наставник: [Алексей Васильев](https://htmlacademy.ru/profile/id1353249).
 ---
 
 _Не удаляйте и не изменяйте самовольно файлы и папки:_
 _`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `package-lock.json`, `package.json`., `.github`_
-
 ---
 
 [Как работать с Git на проекте](Contributing.md) | [Как работать над проектом](Workflow.md)
