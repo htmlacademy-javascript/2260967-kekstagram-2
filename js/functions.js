@@ -1,7 +1,7 @@
 function stringLengthChecking(str, maxLength) {
   return str.length <= maxLength;
 }
-
+stringLengthChecking();
 function palindromChecking(str) {
   const normalized = String(str).replaceAll(' ', '').toLowerCase();
   let reversed = '';
@@ -11,7 +11,7 @@ function palindromChecking(str) {
   }
   return reversed === normalized;
 }
-
+palindromChecking();
 function extractDigits(value) {
   const text = (typeof value === 'number') ? value.toString() : String(value);
   let digits = '';
@@ -26,4 +26,4 @@ function extractDigits(value) {
   return digits === '' ? NaN : parseInt(digits, 10);
 }
 
-
+extractDigits();
