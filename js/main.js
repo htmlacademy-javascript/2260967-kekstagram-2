@@ -4,6 +4,19 @@ const getRandomInteger = (a, b) => {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
+const usedCommentIds = [];
+const usedPhotoIds = [];
+
+const getUniqueId = (min, max, usedIds) => {
+  let id;
+
+  do {
+    id = getRandomInteger(min, max);
+  } while (usedIds.includes(id));
+
+  usedIds.push(id);
+  return id;
+};
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const descriptions = [
@@ -31,26 +44,25 @@ const names = [
 ];
 const commentsArray = function () {
   return {
-    id: getRandomInteger(1, 999),
+    id: getUniqueId(1, 999, usedCommentIds),
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: getRandomArrayElement(messages),
     name: getRandomArrayElement(names),
-  };
-};
+  }
+}
 const generateComments = function () {
-  const commentsCount = getRandomInteger(0, 30); // сколько будет комментариев
+  const commentsCount = getRandomInteger(0, 30);
   const comments = [];
-
   for (let i = 0; i < commentsCount; i++) {
     comments.push(commentsArray());
   }
-
   return comments;
 };
 const userPhoto = function () {
+  const id = getUniqueId(1, 25, usedPhotoIds);
   return {
-    id: getRandomInteger(1, 25),
-    url: `photos/${getRandomInteger(1, 25)}.jpg`,
+    id,
+    url: `photos/${id}.jpg`,
     description: getRandomArrayElement(descriptions),
     likes: getRandomInteger(15, 200),
     comments: generateComments(),
