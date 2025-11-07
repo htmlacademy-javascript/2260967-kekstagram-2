@@ -48,8 +48,8 @@ const commentsArray = function () {
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: getRandomArrayElement(messages),
     name: getRandomArrayElement(names),
-  }
-}
+  };
+};
 const generateComments = function () {
   const commentsCount = getRandomInteger(0, 30);
   const comments = [];
