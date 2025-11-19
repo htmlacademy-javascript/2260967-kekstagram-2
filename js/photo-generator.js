@@ -19,7 +19,7 @@ const generateComments = function () {
   return comments;
 };
 const usedPhotoIds = [];
-const userPhoto = function () {
+export const userPhoto = function () {
   const id = getUniqueId(1, 25, usedPhotoIds);
   return {
     id,
