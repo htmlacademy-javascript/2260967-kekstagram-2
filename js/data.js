@@ -21,5 +21,3 @@ export const names = [
   'Глеб',
   'Лев',
 ];
-export const usedCommentIds = [];
-export const usedPhotoIds = [];

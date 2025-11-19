@@ -2,8 +2,9 @@ import { getRandomInteger, getUniqueId, getRandomArrayElement } from '../js/util
 import * as Lib from '../js/data.js';
 
 const commentsArray = function () {
+  const usedCommentIds = [];
   return {
-    id: getUniqueId(1, 999, Lib.usedCommentIds),
+    id: getUniqueId(1, 999, usedCommentIds),
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: getRandomArrayElement(Lib.messages),
     name: getRandomArrayElement(Lib.names),
@@ -17,8 +18,9 @@ const generateComments = function () {
   }
   return comments;
 };
+const usedPhotoIds = [];
 const userPhoto = function () {
-  const id = getUniqueId(1, 25, Lib.usedPhotoIds);
+  const id = getUniqueId(1, 25, usedPhotoIds);
   return {
     id,
     url: `photos/${id}.jpg`,
@@ -31,10 +33,11 @@ const createUserPhotos = function (count) {
   const photos = [];
 
   for (let i = 1; i <= count; i++) {
-    photos.push(userPhoto(i));
+    photos.push(userPhoto());
   }
 
   return photos;
 };
 
-createUserPhotos(25);
+
+export { createUserPhotos };
