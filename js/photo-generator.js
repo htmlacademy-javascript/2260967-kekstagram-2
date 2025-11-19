@@ -36,5 +36,4 @@ const createUserPhotos = function (count) {
 
   return photos;
 };
-
 createUserPhotos(25);
