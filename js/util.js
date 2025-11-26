@@ -6,12 +6,10 @@ export const getRandomInteger = (a, b) => {
 };
 
 export const getUniqueId = (min, max, usedIds) => {
-  let id;
-
-  do {
-    id = getRandomInteger(min, max);
-  } while (usedIds.includes(id));
-
+  const id = getRandomInteger(min, max);
+  if (usedIds.includes(id)) {
+    return getUniqueId(min, max, usedIds);
+  }
   usedIds.push(id);
   return id;
 };
