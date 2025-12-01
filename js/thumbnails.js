@@ -1,11 +1,14 @@
 import { createUserPhotos } from '../js/photo-generator.js';
 const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
-const container = document.querySelector('.pictures');
 
-const photos = createUserPhotos(25);
+export const container = document.querySelector('.pictures');
+
+export const photos = createUserPhotos(25);
 
 const createThumbnail = (photo) => {
   const thumbnail = templateFragment.cloneNode(true);
+  thumbnail.dataset.pictureId = photo.id;
+
   const image = thumbnail.querySelector('.picture__img');
   image.src = photo.url;
   image.alt = photo.description;
