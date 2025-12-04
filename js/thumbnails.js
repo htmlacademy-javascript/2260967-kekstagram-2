@@ -1,20 +1,23 @@
 const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
 export const container = document.querySelector('.pictures');
-import { getData } from './api';
-export const photos = await getData();
-const createThumbnail = (photo) => {
+
+export const createThumbnail = (photo) => {
   const thumbnail = templateFragment.cloneNode(true);
   thumbnail.dataset.pictureId = photo.id;
   const image = thumbnail.querySelector('.picture__img');
   image.src = photo.url;
   image.alt = photo.description;
   thumbnail.querySelector('.picture__likes').textContent = photo.likes;
-  thumbnail.querySelector('.picture__comments').textContent = photo.comments.length;
+  const commentsCount = Array.isArray(photo.comments) ? photo.comments.length : 0;
+  thumbnail.querySelector('.picture__comments').textContent = commentsCount;
   return thumbnail;
 };
-const fragment = document.createDocumentFragment();
-photos.forEach((photo) => {
-  const thumbnail = createThumbnail(photo);
-  fragment.appendChild(thumbnail);
-});
-container.appendChild(fragment);
+const clearThumbnails = () => {
+  container.querySelectorAll('.picture').forEach((item) => item.remove());
+};
+export const renderThumbnails = (photos) => {
+  clearThumbnails();
+  const fragment = document.createDocumentFragment();
+  photos.forEach((p) => fragment.appendChild(createThumbnail(p)));
+  container.appendChild(fragment);
+};

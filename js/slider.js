@@ -1,75 +1,132 @@
-import { uploadForm } from './form';
+import { styleFilterByEffects, Effects } from './data.js';
+import { uploadForm } from './form.js';
+
 const EFFECT_LEVEL_MAX = 100;
-const effectLevelInput = uploadForm.querySelector('.effect-level__value');
-effectLevelInput.value = EFFECT_LEVEL_MAX;
-const effectSlider = uploadForm.querySelector('.effect-level__slider');
+
+// Элементы формы
+const uploadInput = uploadForm.querySelector('.img-upload__input');
+const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
+const uploadCancelBtn = uploadForm.querySelector('.img-upload__cancel');
+const imgPreview = uploadForm.querySelector('.img-upload__preview img');
 const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
-const photoPreview = uploadForm.querySelector('.img-upload__preview');
-const imgPreview = photoPreview.firstElementChild;
-const selectorImg = 'effects__preview--none';
+const effectSlider = uploadForm.querySelector('.effect-level__slider');
+const effectLevelInput = uploadForm.querySelector('.effect-level__value');
 const effectRadioBtns = uploadForm.querySelectorAll('.effects__radio');
-import {styleFilterByEffects} from './data.js';
-import {Effects} from './data.js';
 
-const getEffectSelector = (currentInputId) => {
-  const selectors = {
-    'effect-none': 'effects__preview--none',
-    'effect-chrome': 'effects__preview--chrome',
-    'effect-sepia': 'effects__preview--sepia',
-    'effect-marvin': 'effects__preview--marvin',
-    'effect-phobos': 'effects__preview--phobos',
-    'effect-heat': 'effects__preview--heat',
-  };
-  return selectors[currentInputId];
-};
-const getUpdateSliderOptions = (effect, sliderElement) => {
-  sliderElement.noUiSlider.updateOptions(Effects[effect]);
-};
+// Масштаб
+const scaleValueInput = uploadForm.querySelector('.scale__control--value');
+
+// Текущий класс эффекта
+let currentEffectClass = 'effects__preview--none';
+
+// Функция получения CSS-класса эффекта
+const getEffectClass = (effect) => ({
+  none: 'effects__preview--none',
+  chrome: 'effects__preview--chrome',
+  sepia: 'effects__preview--sepia',
+  marvin: 'effects__preview--marvin',
+  phobos: 'effects__preview--phobos',
+  heat: 'effects__preview--heat',
+}[effect]);
+
+// Сброс фильтра и масштаба
 const resetFilter = () => {
-  imgPreview.style.removeProperty('filter');
-  sliderContainer.classList.add('hidden');
-  imgPreview.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+  imgPreview.style.filter = '';
+  imgPreview.style.transform = 'scale(1)';
+  scaleValueInput.value = '100%';
+  imgPreview.className = '';
   imgPreview.classList.add('effects__preview--none');
-};
-const onEffectRadioBtnClick = (evt) => {
-  const currentRadioBtn = evt.target.closest('.effects__radio');
+  sliderContainer.classList.add('hidden');
+  currentEffectClass = 'effects__preview--none';
 
-  if (currentRadioBtn) {
-    const effectBtnValue = currentRadioBtn.value;
-    imgPreview.classList.replace(selectorImg, getEffectSelector(effectBtnValue));
-    getUpdateSliderOptions(effectBtnValue, effectSlider);
+  // Сброс выбранного радиобаттона
+  const noneRadio = uploadForm.querySelector('#effect-none');
+  if (noneRadio) {
+    noneRadio.checked = true;
+  }
+
+  // Сброс слайдера
+  if (effectSlider.noUiSlider) {
+    effectSlider.noUiSlider.updateOptions({
+      range: { min: 0, max: 100 },
+      start: EFFECT_LEVEL_MAX,
+      step: 1,
+      connect: 'lower',
+    });
+    effectSlider.noUiSlider.set(EFFECT_LEVEL_MAX);
   }
 };
-noUiSlider.create(effectSlider, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
-  connect: 'lower',
-});
 
+// Инициализация слайдера
+if (!effectSlider.noUiSlider) {
+  noUiSlider.create(effectSlider, {
+    range: { min: 0, max: 100 },
+    start: EFFECT_LEVEL_MAX,
+    step: 1,
+    connect: 'lower',
+  });
+}
+
+// Обновление фильтра при изменении слайдера
 effectSlider.noUiSlider.on('update', () => {
-  effectLevelInput.value = effectSlider.noUiSlider.get();
+  const value = effectSlider.noUiSlider.get();
+  effectLevelInput.value = value;
 
-  effectRadioBtns.forEach((item) => {
-    if (item.checked) {
-      if (item.value !== 'none') {
-        sliderContainer.classList.remove('hidden');
-        imgPreview.style.filter = styleFilterByEffects[item.value](effectLevelInput.value);
-      } else {
-        resetFilter();
-      }
+  effectRadioBtns.forEach((radio) => {
+    if (radio.checked && radio.value !== 'none') {
+      imgPreview.style.filter = styleFilterByEffects[radio.value](value);
     }
   });
 });
 
-effectRadioBtns.forEach((radioBtn) => {
-  radioBtn.addEventListener('click', onEffectRadioBtnClick);
+// Обработчик выбора эффекта
+effectRadioBtns.forEach((radio) => {
+  radio.addEventListener('click', () => {
+    const effect = radio.value;
+    const newClass = getEffectClass(effect);
+
+    imgPreview.classList.replace(currentEffectClass, newClass);
+    currentEffectClass = newClass;
+
+    // Сброс слайдера на максимальное значение
+    effectSlider.noUiSlider.set(EFFECT_LEVEL_MAX);
+
+    if (effect === 'none') {
+      resetFilter();
+    } else {
+      sliderContainer.classList.remove('hidden');
+
+      // Обновляем настройки слайдера под выбранный эффект
+      effectSlider.noUiSlider.updateOptions(Effects[effect]);
+
+      // Применяем фильтр сразу после сброса слайдера
+      const value = effectSlider.noUiSlider.get();
+      imgPreview.style.filter = styleFilterByEffects[effect](value);
+    }
+  });
 });
 
-const checkedRadio = uploadForm.querySelector('.effects__radio:checked');
-if (checkedRadio.value === 'none') {
+// Открытие формы
+uploadInput.addEventListener('change', () => {
+  uploadOverlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
   resetFilter();
-}
+});
+
+// Закрытие кнопкой
+uploadCancelBtn.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetFilter();
+  uploadOverlay.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+});
+
+// Закрытие Escape
+document.addEventListener('keydown', (evt) => {
+  if ((evt.key === 'Escape' || evt.key === 'Esc') && !uploadOverlay.classList.contains('hidden')) {
+    evt.preventDefault();
+    resetFilter();
+    uploadOverlay.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  }
+});

@@ -60,7 +60,7 @@ const isHashtagValid = (value) => {
 export const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
-  errorTextParent: 'img-upload__field-wrapper', // куда добавлять класс при ошибке
+  errorTextParent: 'img-upload__field-wrapper',
 
 });
 pristine.addValidator(hashtagInput, isHashtagValid, error, 2, false);
@@ -73,18 +73,9 @@ const commentPristine = new Pristine(commentInput, {
 
 commentPristine.addValidator(commentInput, (value) => {
   if (!value) {
-    return true; // пустая строка — допустима
+    return true;
   }
 
   return value.length <= MAX_COMMENT_SYMBOLS;
 }, 'Длина комментария не должна превышать 140 символов');
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-
-  if (pristine.validate()) {
-    hashtagInput.value = hashtagInput.value.trim().replaceAll(/\s+/g, '');
-    uploadForm.submit();
-  }
-};
-uploadForm.addEventListener('submit', onFormSubmit);

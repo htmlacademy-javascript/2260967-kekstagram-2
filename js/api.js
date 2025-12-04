@@ -6,19 +6,26 @@ const Route = {
 };
 
 const Method = {
-  GET: 'get',
-  POST: 'post',
+  GET: 'GET',
+  POST: 'POST',
 };
 
 const ErrorText = {
   [Method.GET]: 'Не удалось получить данные, попробуйте еще раз',
-  [Method.POST]: 'Не удалось отправить данные форы',
+  [Method.POST]: 'Не удалось отправить данные формы',
 };
+
 const load = async (route, method = Method.GET, body = null) => {
   const response = await fetch(`${BASE_URL}${route}`, { method, body });
-  return response.ok ? await response.json() : Promise.reject(ErrorText[method]);
+  return response.ok
+    ? await response.json()
+    : Promise.reject({
+      message: ErrorText[method],
+      status: response.status,
+    });
 };
+
 const getData = async () => await load(Route.GET_DATA);
 const sendData = async (body) => await load(Route.SENT_DATA, Method.POST, body);
 
-export {getData, sendData };
+export { getData, sendData };
