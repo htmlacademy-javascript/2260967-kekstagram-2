@@ -1,12 +1,8 @@
 import { styleFilterByEffects, Effects } from './data.js';
-import { uploadForm } from './form.js';
-
 const EFFECT_LEVEL_MAX = 100;
 
 // Элементы формы
-const uploadInput = uploadForm.querySelector('.img-upload__input');
-const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
-const uploadCancelBtn = uploadForm.querySelector('.img-upload__cancel');
+const uploadForm = document.querySelector('.img-upload__form');
 const imgPreview = uploadForm.querySelector('.img-upload__preview img');
 const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
 const effectSlider = uploadForm.querySelector('.effect-level__slider');
@@ -106,27 +102,4 @@ effectRadioBtns.forEach((radio) => {
   });
 });
 
-// Открытие формы
-uploadInput.addEventListener('change', () => {
-  uploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  resetFilter();
-});
-
-// Закрытие кнопкой
-uploadCancelBtn.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetFilter();
-  uploadOverlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-});
-
-// Закрытие Escape
-document.addEventListener('keydown', (evt) => {
-  if ((evt.key === 'Escape' || evt.key === 'Esc') && !uploadOverlay.classList.contains('hidden')) {
-    evt.preventDefault();
-    resetFilter();
-    uploadOverlay.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  }
-});
+export {resetFilter}

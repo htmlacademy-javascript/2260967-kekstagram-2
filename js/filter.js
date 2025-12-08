@@ -1,9 +1,15 @@
 import { renderThumbnails } from './thumbnails';
-let currentFilter = 'filter-default';
+import { debounce } from './util';
 let pictures = [];
 const filterElement = document.querySelector('.img-filters');
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
-import { debounce } from './util';
+const FILTER = {
+  default: 'filter-default',
+  random:'filter-random',
+  discussed:'filter-discussed',
+};
+
+let currentFilter = FILTER.default;
 const debounceRender = debounce(renderThumbnails);
 function onFilterChange(evt) {
   const targetButton = evt.target;
@@ -21,13 +27,13 @@ function onFilterChange(evt) {
 }
 function applyFilter() {
   let filteredPictures = [];
-  if (currentFilter === 'filter-default') {
+  if (currentFilter === FILTER.default) {
     filteredPictures = pictures;
   }
-  if (currentFilter === 'filter-random') {
+  if (currentFilter === FILTER.random) {
     filteredPictures = pictures.toSorted(() => 0.5 - Math.random()).slice(0, 10);
   }
-  if (currentFilter === 'filter-discussed') {
+  if (currentFilter === FILTER.discussed) {
     filteredPictures = pictures.toSorted((a, b) => b.comments.length - a.comments.length);
 
   }
