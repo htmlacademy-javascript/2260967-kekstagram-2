@@ -5,6 +5,7 @@ const pageBody = document.querySelector('body');
 const imageCloseButton = document.querySelector('.img-upload__cancel');
 const imageOpenButton = document.querySelector('#upload-file');
 
+
 const SCALE_STEP = 0.25;
 let scale = 1;
 const img = uploadForm.querySelector('.img-upload__preview img');
