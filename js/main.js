@@ -1,4 +1,3 @@
-import './photo-generator.js';
 import './thumbnails.js';
 import './form.js';
 import { container } from './thumbnails.js';

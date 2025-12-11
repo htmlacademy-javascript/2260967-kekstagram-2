@@ -1,10 +1,8 @@
-import { createUserPhotos } from '../js/photo-generator.js';
 const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
 
 export const container = document.querySelector('.pictures');
-
-export const photos = createUserPhotos(25);
-
+import { getData } from './api';
+export const photos = await getData();
 const createThumbnail = (photo) => {
   const thumbnail = templateFragment.cloneNode(true);
   thumbnail.dataset.pictureId = photo.id;
