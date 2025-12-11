@@ -1,14 +1,19 @@
 const editingForm = document.querySelector('.img-upload__overlay');
 const uploadInput = document.querySelector('#upload-file');
 import { sendData } from './api.js';
-import { uploadForm} from './form.js';
+import { uploadForm } from './form.js';
 import { pristine } from './hastag-validity.js';
 const body = document.querySelector('body');
+const hashtagInput = document.querySelector('.text__hashtags');
+const commentInput = document.querySelector('.text__description');
 
 export function closePhotoEditor() {
   editingForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadInput.value = '';
+  hashtagInput.value = '';
+  commentInput.value = '';
+  pristine.reset();
 }
 const formSubmitButton = document.querySelector('.img-upload__submit');
 const submitButtonText = {

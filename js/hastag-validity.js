@@ -1,4 +1,4 @@
-import { uploadForm } from './form.js';
+const uploadForm = document.querySelector('.img-upload__form');
 export const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const MAX_HASHTAGS = 5;

@@ -1,9 +1,12 @@
 import { resetFilter } from './slider.js';
+import { pristine } from './hastag-validity.js';
 export const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const editingForm = uploadForm.querySelector('.img-upload__overlay');
 const pageBody = document.querySelector('body');
 const imageCloseButton = document.querySelector('.img-upload__cancel');
+const hashtagInput = document.querySelector('.text__hashtags');
+const commentInput = document.querySelector('.text__description');
 // const imageOpenButton = document.querySelector('#upload-file');
 const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif'];
 const SCALE_STEP = 0.25;
@@ -51,6 +54,9 @@ function closePhotoEditor() {
   imageCloseButton.removeEventListener('click', onImageCloseButtonClick);
   document.removeEventListener('keydown', onEscKeydown);
   uploadInput.value = '';
+  hashtagInput.value = '';
+  commentInput.value = '';
+  pristine.reset();
   img.src = 'img/upload-default-image.jpg'; // <--- ДОБАВЬТЕ ЭТУ СТРОКУ
   resetFilter();
 }
