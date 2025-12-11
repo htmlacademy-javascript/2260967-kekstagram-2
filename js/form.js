@@ -5,7 +5,7 @@ const editingForm = uploadForm.querySelector('.img-upload__overlay');
 const pageBody = document.querySelector('body');
 const imageCloseButton = document.querySelector('.img-upload__cancel');
 // const imageOpenButton = document.querySelector('#upload-file');
-const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif']
+const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif'];
 const SCALE_STEP = 0.25;
 let scale = 1;
 const img = uploadForm.querySelector('.img-upload__preview img');
@@ -39,7 +39,7 @@ function openPhotoEditor() {
   imageCloseButton.addEventListener('click', onImageCloseButtonClick);
   document.addEventListener('keydown', onEscKeydown);
   resetFilter();
-};
+}
 
 /* 1.3 Закрытие формы редактирования изображения производится либо нажатием на кнопку .img-upload__cancel,
  либо нажатием клавиши Esc. Элементу .img-upload__overlay возвращается класс hidden.
@@ -76,34 +76,19 @@ bigger.addEventListener('click', onBiggerClick);
 
 
 function showError(errMessage) {
-  // Находим шаблон по его ID
   const errorTemplate = document.querySelector('#data-error');
-  if (!errorTemplate) {
-    console.error('Шаблон ошибки #data-error не найден!');
-    return; // Выходим, если шаблона нет
-  }
-
-  // Клонируем СОДЕРЖИМОЕ шаблона
   const errorElement = errorTemplate.content.cloneNode(true);
-
-  // Находим заголовок внутри клонированного фрагмента и устанавливаем текст
-  // Используем правильный селектор для класса
   const errorTitle = errorElement.querySelector('.data-error__title');
   if (errorTitle) {
-    errorTitle.textContent = errMessage || 'Произошла ошибка!'; // Устанавливаем сообщение или текст по умолчанию
+    errorTitle.textContent = errMessage || 'Произошла ошибка!';
   }
-
-  // Добавляем клонированный элемент в тело документа
   document.body.appendChild(errorElement);
-
-  // Находим только что добавленный элемент, чтобы потом его удалить
-  // (appendChild возвращает добавленный узел, но для фрагментов это сложнее, проще найти по селектору)
   const activeError = document.querySelector('.data-error');
   setTimeout(() => {
     if (activeError) {
       activeError.remove();
     }
-  }, 5000); // Увеличим время до 5 сек, чтобы успеть прочитать
+  }, 5000);
 }
 function onfileInputChange() {
   const file = uploadInput.files[0];
@@ -114,16 +99,13 @@ function onfileInputChange() {
     img.src = url;
     const uploadPreviewEffects = document.querySelectorAll('.effects__preview');
     uploadPreviewEffects.forEach((item) => {
-      item.style.backgroundImage = `url(${url})`
+      item.style.backgroundImage = `url(${url})`;
 
     });
     openPhotoEditor();
-  }
-  else {
+  } else {
     showError('Неверный тип файла. Выберите изображение в формате JPG, JPEG, PNG или GIF.');
     uploadInput.value = '';
-    return;
-
   }
 
-};
+}

@@ -102,4 +102,4 @@ effectRadioBtns.forEach((radio) => {
   });
 });
 
-export {resetFilter}
+export {resetFilter};
